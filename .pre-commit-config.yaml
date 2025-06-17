@@ -1,15 +1,20 @@
 repos:
+
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
     rev: 0.7.13
     hooks:
       - id: uv-lock
 
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    # uv version.
-    rev: 0.7.13
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.11.13
     hooks:
-      - id: uv-export
+      # Run the linter.
+      - id: ruff-check
+        args: [ --fix ]
+      # Run the formatter.
+      - id: ruff-format
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.3.0
@@ -17,7 +22,3 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-      - id: black
