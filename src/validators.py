@@ -1,5 +1,7 @@
 """Input validation functions for the weather MCP server."""
 
+from typing import Any
+
 from .config import VALID_STATES
 from .exceptions import ValidationError
 
@@ -31,7 +33,7 @@ def validate_state_code(state: str) -> str:
     return state
 
 
-def validate_coordinates(latitude: float, longitude: float) -> tuple[float, float]:
+def validate_coordinates(latitude: Any, longitude: Any) -> tuple[float, float]:
     """Validate latitude and longitude coordinates.
 
     Args:

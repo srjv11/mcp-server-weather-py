@@ -5,7 +5,7 @@ import time
 
 from mcp.server.fastmcp import FastMCP
 
-from .client import _cache, _request_times, weather_client
+from .client import cache, request_times, weather_client
 from .config import config
 from .exceptions import ValidationError, WeatherAPIError
 from .formatters import format_alerts, format_forecast_periods
@@ -192,8 +192,8 @@ async def health_check() -> str:
         return f"""🏥 Weather Service Health Check
 Status: {status}
 Response Time: {response_time:.2f}s
-Cache Entries: {len(_cache)}
-Rate Limit Usage: {len(_request_times)}/{config.rate_limit_per_minute} per minute
+Cache Entries: {len(cache)}
+Rate Limit Usage: {len(request_times)}/{config.rate_limit_per_minute} per minute
 API Base: {config.nws_api_base}"""
 
     except Exception as e:

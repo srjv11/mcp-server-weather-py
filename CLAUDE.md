@@ -30,15 +30,24 @@ This is an enhanced MCP (Model Context Protocol) server that provides comprehens
 - This project uses `uv` for dependency management
 - Install dependencies: `uv sync`
 - Install dev dependencies: `uv sync --group dev`
-- Run enhanced server: `python weather_improved.py`
-- Run original server: `python weather.py`
+
+### Running the Server
+The app is now properly packaged and can be run in multiple ways:
+
+**Using uv (recommended):**
+- `uv run weather-mcp` - Run via script entry point
+- `uv run -m src.main` - Run as module
+
+**After installation:**
+- `uv pip install -e .` - Install in editable mode
+- `weather-mcp` - Run installed script
 
 ### Code Quality & Testing
 - **Linting and formatting**: `ruff check --fix && ruff format`
 - **Pre-commit hooks**: `pre-commit run --all-files`
-- **Run tests**: `pytest` or `pytest test_weather.py -v`
-- **Test with coverage**: `pytest --cov=. --cov-report=html`
-- **Type checking**: `mypy weather_improved.py` (if mypy is installed)
+- **Run tests**: `uv run pytest tests/ -v`
+- **Test with coverage**: `uv run pytest --cov=. --cov-report=html`
+- **Type checking**: `mypy src/ --ignore-missing-imports`
 
 ### Docker Deployment
 - **Build container**: `docker build -t weather-mcp .`

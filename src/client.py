@@ -16,27 +16,27 @@ from .models import CacheEntry
 logger = logging.getLogger(__name__)
 
 # Simple in-memory cache and rate limiting
-_cache: dict[str, CacheEntry] = {}
-_request_times: list[float] = []
+cache: dict[str, CacheEntry] = {}
+request_times: list[float] = []
 
 
 def _clean_expired_cache():
     """Remove expired cache entries."""
-    expired_keys = [k for k, v in _cache.items() if v.is_expired]
+    expired_keys = [k for k, v in cache.items() if v.is_expired]
     for key in expired_keys:
-        del _cache[key]
+        del cache[key]
 
 
 def _check_rate_limit():
     """Check if we're within rate limits."""
     now = time.time()
     # Remove requests older than 1 minute
-    _request_times[:] = [t for t in _request_times if now - t < 60]
+    request_times[:] = [t for t in request_times if now - t < 60]
 
-    if len(_request_times) >= config.rate_limit_per_minute:
+    if len(request_times) >= config.rate_limit_per_minute:
         raise RateLimitError("Rate limit exceeded. Please try again later.")
 
-    _request_times.append(now)
+    request_times.append(now)
 
 
 class WeatherClient:
@@ -89,7 +89,7 @@ class WeatherClient:
         # Check cache first
         if cache_key:
             _clean_expired_cache()
-            cached = _cache.get(cache_key)
+            cached = cache.get(cache_key)
             if cached and not cached.is_expired:
                 logger.info(f"Cache hit for {cache_key}")
                 return cached.data
@@ -114,7 +114,7 @@ class WeatherClient:
 
                     # Cache successful response
                     if cache_key:
-                        _cache[cache_key] = CacheEntry(
+                        cache[cache_key] = CacheEntry(
                             data, time.time(), config.cache_ttl
                         )
 

@@ -1,7 +1,7 @@
 """Enhanced Weather MCP Server Package."""
 
 # Re-export main components for backward compatibility
-from .client import _cache, _request_times, weather_client
+from .client import cache, request_times, weather_client
 from .config import config
 from .exceptions import (
     APIUnavailableError,
@@ -40,7 +40,7 @@ __all__ = [
     "format_forecast_periods",
     # Client and config
     "weather_client",
-    "_cache",
-    "_request_times",
+    "cache",
+    "request_times",
     "config",
 ]

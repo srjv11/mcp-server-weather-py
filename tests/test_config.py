@@ -1,26 +1,21 @@
-"""
-Test environment variable coverage by importing with env vars set
-"""
-
 import os
 import sys
 from unittest.mock import patch
 
+sys.path.append("/home/raghu/mcp-server-weather-py")
+
 
 def test_environment_variable_coverage():
     """Test environment variable loading by importing with env vars set"""
-    # Add the src directory to the path
-    sys.path.append("/home/raghu/mcp-server-weather-py/src")
-
     # Remove modules if already imported
     modules_to_remove = [
-        "modular.config",
-        "modular.client",
-        "modular.tools",
-        "modular.validators",
-        "modular.formatters",
-        "modular.models",
-        "modular.exceptions",
+        "src.config",
+        "src.client",
+        "src.tools",
+        "src.validators",
+        "src.formatters",
+        "src.models",
+        "src.exceptions",
     ]
     for module in modules_to_remove:
         if module in sys.modules:
@@ -36,7 +31,7 @@ def test_environment_variable_coverage():
         },
     ):
         # Import the config module to trigger environment variable loading
-        from modular.config import config
+        from src.config import config
 
         # Check that the environment variables were loaded
         assert config.timeout == 45.0

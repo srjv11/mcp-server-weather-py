@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "mcp-server-weather-py"
 version = "2.0.0"
@@ -24,7 +28,24 @@ dev = [
 ]
 
 [project.scripts]
-weather-mcp = "weather_improved:main"
+weather-mcp = "src.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-dir]
+"" = "."
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "pytest-cov>=6.2.1",
+    "pytest-mock>=3.14.1",
+    "mypy>=1.16.1",
+]
+
 
 [tool.pytest.ini_options]
 minversion = "8.0"

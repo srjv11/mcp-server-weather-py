@@ -33,7 +33,7 @@ def format_alerts(
     Returns:
         List of formatted WeatherAlert objects
     """
-    alerts = []
+    alerts: list[WeatherAlert] = []
 
     for feature in features:
         props = feature.get("properties", {})
@@ -70,7 +70,7 @@ def format_forecast_periods(periods: list[dict[str, Any]]) -> list[ForecastPerio
     Returns:
         List of formatted ForecastPeriod objects
     """
-    forecast_periods = []
+    forecast_periods: list[ForecastPeriod] = []
 
     for period in periods[: config.max_forecast_periods]:
         forecast_period = ForecastPeriod(
