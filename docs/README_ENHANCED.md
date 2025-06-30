@@ -9,47 +9,60 @@ A comprehensive, production-ready MCP (Model Context Protocol) server providing 
 uv sync --group dev
 
 # Run the enhanced server
-python weather_improved.py
+uv run weather-mcp
+# or
+uv run -m src.main
 
 # Run tests
-pytest
+uv run pytest tests/ -v
 
 # Run code quality checks
 ruff check --fix && ruff format
-
-# Run setup script for guided installation
-python setup.py
 ```
 
-## 📁 Project Structure
+## 📁 Current Project Structure
 
 ```
 mcp-server-weather-py/
 ├── 📄 Core Application Files
-│   ├── weather_improved.py      # Enhanced MCP server (NEW)
-│   ├── weather.py               # Original simple implementation
-│   ├── main.py                  # Basic entry point
-│   └── monitoring.py            # Advanced metrics & monitoring (NEW)
+│   └── src/
+│       ├── main.py              # Main entry point
+│       ├── client.py            # HTTP client with caching
+│       ├── config.py            # Configuration management
+│       ├── exceptions.py        # Custom exception classes
+│       ├── formatters.py        # Data formatting utilities
+│       ├── models.py            # Data models and types
+│       ├── tools.py             # MCP tools implementation
+│       ├── validators.py        # Input validation
+│       └── weather.py           # Alternative entry point
 │
 ├── 🧪 Testing & Quality
-│   ├── test_weather.py          # Comprehensive test suite (NEW)
-│   ├── examples.py              # Usage examples & demos (NEW)
-│   └── setup.py                 # Automated setup script (NEW)
+│   └── tests/
+│       ├── test_client.py       # HTTP client tests
+│       ├── test_config.py       # Configuration tests
+│       ├── test_exceptions.py   # Exception handling tests
+│       ├── test_formatters.py   # Data formatting tests
+│       ├── test_models.py       # Data model tests
+│       ├── test_tools.py        # MCP tools tests
+│       ├── test_validators.py   # Validation tests
+│       └── test_weather.py      # Main module tests
 │
 ├── 🐳 Deployment
-│   ├── Dockerfile               # Container configuration (NEW)
-│   ├── docker-compose.yml       # Multi-service orchestration (NEW)
-│   └── .dockerignore            # Container build optimization (NEW)
+│   ├── Dockerfile               # Container configuration
+│   ├── docker-compose.yml       # Multi-service orchestration
+│   └── .dockerignore            # Container build optimization
 │
 ├── 📚 Configuration & Documentation
-│   ├── pyproject.toml           # Enhanced dependencies & config
-│   ├── CLAUDE.md                # Updated development guide
-│   ├── README_ENHANCED.md       # This comprehensive README (NEW)
-│   ├── .pre-commit-config.yaml  # Code quality hooks
+│   ├── pyproject.toml           # Package configuration & dependencies
+│   ├── CLAUDE.md                # Development guide
+│   ├── MCP_SETUP.md             # MCP integration guide
+│   ├── .env.example             # Environment configuration template
 │   └── uv.lock                  # Dependency lock file
 │
-└── 📄 Generated Files (by setup.py)
-    └── .env.example             # Environment configuration template
+└── 📄 Examples & Utilities
+    ├── examples.py              # Usage examples & demos
+    ├── example_state_machine.py # Educational state machine example
+    └── setup_script.py          # Setup automation script
 ```
 
 ## ✨ Major Enhancements
@@ -95,29 +108,24 @@ mcp-server-weather-py/
 ### Core MCP Tools
 
 #### `get_alerts(state, severity_filter=None)`
-```python
-# Get all alerts for California
-await get_alerts("CA")
-
-# Get only severe alerts for Texas
-await get_alerts("TX", "Severe")
-
-# Supported severity filters: Extreme, Severe, Moderate, Minor
-```
+**Get weather alerts for a US state with optional severity filtering**
+- `state`: Two-letter state code (e.g., "CA", "TX", "NY")
+- `severity_filter`: Optional ("Extreme", "Severe", "Moderate", "Minor")
 
 #### `get_forecast(latitude, longitude)`
-```python
-# San Francisco forecast
-await get_forecast(37.7749, -122.4194)
+**Get weather forecast for specific coordinates**
+- `latitude`: Latitude coordinate (-90 to 90)
+- `longitude`: Longitude coordinate (-180 to 180)
+- Returns location context and 5-day forecast periods
 
-# Includes location context, 5-day periods, rich formatting
-```
+#### `get_location_forecast(city, state)`
+**Get weather forecast by city and state** (requires geocoding setup)
+- `city`: City name
+- `state`: Two-letter state code
 
 #### `health_check()`
-```python
-# Service health and performance metrics
-await health_check()
-```
+**Check server health and performance metrics**
+- Returns service status, response times, cache statistics
 
 ## 🔧 Configuration
 
@@ -143,26 +151,25 @@ export WEATHER_RATE_LIMIT_PER_MINUTE=60  # Rate limiting
 
 ```bash
 # Run all tests
-pytest
+uv run pytest tests/ -v
 
 # With coverage report
-pytest --cov=. --cov-report=html
+uv run pytest --cov=. --cov-report=html
 
-# Specific test categories
-pytest test_weather.py::TestValidation -v
-pytest test_weather.py::TestMCPTools -v
-
-# Test-driven development
-pytest --watch
+# Specific test modules
+uv run pytest tests/test_validators.py -v
+uv run pytest tests/test_tools.py -v
+uv run pytest tests/test_client.py -v
 ```
 
-### Test Coverage
-- ✅ Input validation and sanitization
-- ✅ Data models and formatting
-- ✅ HTTP client retry logic and caching
-- ✅ MCP tool end-to-end functionality
-- ✅ Error scenarios and edge cases
-- ✅ Rate limiting and performance
+### Test Coverage (46 tests across 8 modules)
+- ✅ **Input validation** (`test_validators.py`) - State codes, coordinates
+- ✅ **Data models** (`test_models.py`) - WeatherAlert, ForecastPeriod, config
+- ✅ **HTTP client** (`test_client.py`) - Retry logic, caching, error handling
+- ✅ **MCP tools** (`test_tools.py`) - End-to-end functionality, error scenarios
+- ✅ **Data formatting** (`test_formatters.py`) - Alert and forecast formatting
+- ✅ **Exception handling** (`test_exceptions.py`) - Custom exception types
+- ✅ **Configuration** (`test_config.py`) - Environment variable loading
 
 ## 🐳 Deployment
 
@@ -170,10 +177,10 @@ pytest --watch
 ```bash
 # Standard setup
 uv sync --group dev
-python weather_improved.py
+uv run weather-mcp
 
 # With custom config
-WEATHER_TIMEOUT=45 python weather_improved.py
+WEATHER_TIMEOUT=45 uv run weather-mcp
 ```
 
 ### Docker Deployment
@@ -209,43 +216,37 @@ docker-compose ps
 - **Health**: API connectivity, rate limit usage
 - **Errors**: Recent failures with context
 
-### Metrics Export
-```python
-# JSON format
-from monitoring import metrics_collector
-metrics = await metrics_collector.get_metrics_summary()
+### Metrics Access
+```bash
+# Health check via MCP tool
+uv run -c "from src.tools import health_check; import asyncio; print(asyncio.run(health_check()))"
 
-# Prometheus format
-from monitoring import get_prometheus_metrics
-prometheus_data = get_prometheus_metrics()
+# View metrics in logs when running server
+uv run weather-mcp
 ```
 
-## 🔄 Migration from Original
+## 🔗 MCP Integration
 
-The enhanced version is backward-compatible:
+Connect to Claude Code for interactive weather queries:
 
-```python
-# Original usage still works
-from weather_improved import get_alerts, get_forecast
-
-# New features available
-from weather_improved import health_check
-```
+1. **See MCP_SETUP.md** for complete setup instructions
+2. **Configure:** `~/.config/claude-code/mcp_servers.json`
+3. **Use tools:** Ask Claude Code weather questions directly
 
 ## 🤝 Development Workflow
 
-1. **Setup**: Run `python setup.py` for guided installation
-2. **Code**: Make changes to `weather_improved.py`
-3. **Test**: Run `pytest` to verify functionality
+1. **Setup**: Run `uv sync --group dev` for dependencies
+2. **Code**: Make changes to files in `src/` directory
+3. **Test**: Run `uv run pytest tests/ -v` to verify functionality
 4. **Quality**: Run `ruff check --fix && ruff format`
 5. **Commit**: Pre-commit hooks ensure quality
 
 ## 📚 Documentation
 
 - **CLAUDE.md**: Comprehensive development guide
+- **MCP_SETUP.md**: Claude Code integration instructions
 - **examples.py**: Interactive usage demonstrations
-- **test_weather.py**: Implementation examples via tests
-- **Docker files**: Deployment configuration examples
+- **tests/**: Implementation examples via comprehensive test suite
 
 ## 🎯 Key Improvements Summary
 
@@ -264,11 +265,11 @@ from weather_improved import health_check
 
 ## 🚀 Next Steps
 
-1. **Run Setup**: `python setup.py` for guided installation
-2. **Explore Examples**: `python examples.py` for feature demonstrations
-3. **Run Tests**: `pytest -v` to verify functionality
-4. **Deploy**: Use Docker for production deployment
-5. **Monitor**: Integrate with your monitoring infrastructure
+1. **Install Package**: `uv pip install -e .` for local installation
+2. **Run Server**: `uv run weather-mcp` to start the MCP server
+3. **Setup MCP**: Follow `MCP_SETUP.md` for Claude Code integration
+4. **Run Tests**: `uv run pytest tests/ -v` to verify functionality
+5. **Deploy**: Use Docker for production deployment
 
 ---
 
