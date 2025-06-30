@@ -127,10 +127,18 @@ Connect to Claude Code for interactive weather queries. See **MCP_SETUP.md** for
 
 ## 📚 Documentation
 
-- **CLAUDE.md**: Comprehensive development guide with commands and architecture details
+### Quick Reference
+- **CLAUDE.md**: Development guide with commands and architecture details
 - **MCP_SETUP.md**: Claude Code integration instructions
-- **docs/README_ENHANCED.md**: Detailed feature documentation and examples
 - **examples.py**: Interactive usage demonstrations
+
+### Comprehensive Documentation
+- **[📖 Project Wiki](https://github.com/srjv11/mcp-server-weather-py/wiki)**: Complete documentation including:
+  - [Installation Guide](https://github.com/srjv11/mcp-server-weather-py/wiki/Installation-Guide)
+  - [API Reference](https://github.com/srjv11/mcp-server-weather-py/wiki/API-Reference)
+  - [Configuration](https://github.com/srjv11/mcp-server-weather-py/wiki/Configuration)
+  - [Docker Deployment](https://github.com/srjv11/mcp-server-weather-py/wiki/Docker-Deployment)
+  - [Troubleshooting](https://github.com/srjv11/mcp-server-weather-py/wiki/Troubleshooting)
 
 ---
 
