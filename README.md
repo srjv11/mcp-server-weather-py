@@ -1,6 +1,12 @@
-# Enhanced Weather MCP Server
+# Weather MCP Server
 
-A comprehensive, production-ready MCP (Model Context Protocol) server providing weather data from the National Weather Service API with advanced features including caching, monitoring, robust error handling, and comprehensive testing.
+[![Build Status](https://github.com/raghu/mcp-server-weather-py/workflows/PR%20Tests/badge.svg)](https://github.com/raghu/mcp-server-weather-py/actions)
+[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/raghu/mcp-server-weather-py)
+[![Python 3.13](https://img.shields.io/badge/python-3.13-blue)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue)](https://hub.docker.com/)
+[![MCP](https://img.shields.io/badge/MCP-compatible-green)](https://modelcontextprotocol.io/)
+
+A comprehensive, production-ready MCP (Model Context Protocol) server providing weather data from the National Weather Service API with caching, monitoring, robust error handling, and comprehensive testing.
 
 ## 🚀 Quick Start
 
@@ -128,4 +134,4 @@ Connect to Claude Code for interactive weather queries. See **MCP_SETUP.md** for
 
 ---
 
-**Enhanced Weather MCP Server** - Production-ready weather data for Large Language Models 🌤️
+**Weather MCP Server** - Production-ready weather data for Large Language Models 🌤️

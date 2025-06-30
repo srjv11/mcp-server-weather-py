@@ -4,17 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an enhanced MCP (Model Context Protocol) server that provides comprehensive weather data from the National Weather Service (NWS) API to Large Language Models. The server includes advanced features like caching, monitoring, robust error handling, and comprehensive testing.
+This is a comprehensive MCP (Model Context Protocol) server that provides weather data from the National Weather Service (NWS) API to Large Language Models. The server includes caching, monitoring, robust error handling, and comprehensive testing.
 
 ## Architecture
 
 ### Core Files
-- **weather_improved.py**: Enhanced MCP server implementation with all improvements
+- **main.py**: MCP server implementation with full feature set
   - `get_alerts(state, severity_filter)`: Retrieves active weather alerts with optional filtering
   - `get_forecast(latitude, longitude)`: Gets detailed weather forecast with location info
   - `get_location_forecast(city, state)`: Placeholder for geocoding functionality
   - `health_check()`: Service health monitoring endpoint
-- **weather.py**: Original simple implementation (kept for reference)
+- **weather.py**: Alternative entry point
 - **main.py**: Basic entry point (legacy)
 
 ### New Enhancement Files
@@ -61,7 +61,7 @@ Configure the service using these environment variables:
 - `WEATHER_MAX_RETRIES`: Maximum retry attempts (default: 3)
 - `WEATHER_CACHE_TTL`: Cache TTL in seconds (default: 300)
 
-## Enhanced Features
+## Key Features
 
 ### Error Handling & Resilience
 - **Custom Exception Types**: `ValidationError`, `RateLimitError`, `APIUnavailableError`
@@ -82,7 +82,7 @@ Configure the service using these environment variables:
 - **Prometheus Integration**: Metrics export in Prometheus format
 - **Performance Tracking**: Per-endpoint performance metrics
 
-### Enhanced Functionality
+### Core Functionality
 - **Alert Filtering**: Filter alerts by severity level
 - **Rich Formatting**: Emoji-enhanced, user-friendly output
 - **Location Context**: City/state information in forecasts
@@ -96,7 +96,7 @@ Configure the service using these environment variables:
 
 ## API Reference
 
-### Enhanced MCP Tools
+### MCP Tools
 
 #### get_alerts(state, severity_filter=None)
 - **Purpose**: Get weather alerts with optional severity filtering

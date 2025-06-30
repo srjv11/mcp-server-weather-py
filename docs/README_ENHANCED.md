@@ -1,6 +1,6 @@
-# Enhanced Weather MCP Server
+# Weather MCP Server
 
-A comprehensive, production-ready MCP (Model Context Protocol) server providing weather data from the National Weather Service API with advanced features including caching, monitoring, robust error handling, and comprehensive testing.
+A comprehensive, production-ready MCP (Model Context Protocol) server providing weather data from the National Weather Service API with caching, monitoring, robust error handling, and comprehensive testing.
 
 ## 🚀 Quick Start
 
@@ -8,7 +8,7 @@ A comprehensive, production-ready MCP (Model Context Protocol) server providing 
 # Install dependencies
 uv sync --group dev
 
-# Run the enhanced server
+# Run the MCP server
 uv run weather-mcp
 # or
 uv run -m src.main
@@ -85,7 +85,7 @@ mcp-server-weather-py/
 - **Health Monitoring**: Built-in health check endpoint
 - **Prometheus Integration**: Metrics export format
 
-### 🔧 **Enhanced Functionality**
+### 🔧 **Core Functionality**
 - **Alert Filtering**: Filter by severity (`Extreme`, `Severe`, `Moderate`, `Minor`)
 - **Rich Formatting**: Emoji-enhanced, structured output
 - **Location Context**: Automatic city/state resolution
@@ -248,20 +248,20 @@ Connect to Claude Code for interactive weather queries:
 - **examples.py**: Interactive usage demonstrations
 - **tests/**: Implementation examples via comprehensive test suite
 
-## 🎯 Key Improvements Summary
+## 🎯 Key Features
 
-| Feature | Original | Enhanced |
-|---------|----------|----------|
-| Error Handling | Basic try/catch | Custom exceptions + retry logic |
-| Validation | None | Comprehensive input validation |
-| Caching | None | TTL-based with auto-cleanup |
-| Rate Limiting | None | Configurable with DoS protection |
-| Monitoring | None | Structured metrics + health checks |
-| Testing | None | 95%+ coverage with mocking |
-| Deployment | Basic script | Docker + docker-compose ready |
-| Configuration | Hardcoded | Environment-based with defaults |
-| Documentation | Minimal | Comprehensive with examples |
-| Code Quality | None | Ruff + pre-commit hooks |
+| Feature | Implementation |
+|---------|----------------|
+| Error Handling | Custom exceptions with retry logic |
+| Validation | Comprehensive input validation |
+| Caching | TTL-based with auto-cleanup |
+| Rate Limiting | Configurable with DoS protection |
+| Monitoring | Structured metrics + health checks |
+| Testing | 95%+ coverage with mocking |
+| Deployment | Docker + docker-compose ready |
+| Configuration | Environment-based with defaults |
+| Documentation | Comprehensive with examples |
+| Code Quality | Ruff + pre-commit hooks |
 
 ## 🚀 Next Steps
 
@@ -273,4 +273,4 @@ Connect to Claude Code for interactive weather queries:
 
 ---
 
-**Enhanced Weather MCP Server v2.0** - Production-ready weather data for Large Language Models 🌤️
+**Weather MCP Server** - Production-ready weather data for Large Language Models 🌤️
