@@ -1,7 +1,7 @@
 # Weather MCP Server
 
-[![Build Status](https://github.com/raghu/mcp-server-weather-py/workflows/PR%20Tests/badge.svg)](https://github.com/raghu/mcp-server-weather-py/actions)
-[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/raghu/mcp-server-weather-py)
+[![Build Status](https://github.com/srjv11/mcp-server-weather-py/workflows/PR%20Tests/badge.svg)](https://github.com/srjv11/mcp-server-weather-py/actions)
+[![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](https://github.com/srjv11/mcp-server-weather-py)
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue)](https://www.python.org/downloads/)
 [![Docker](https://img.shields.io/badge/docker-ready-blue)](https://hub.docker.com/)
 [![MCP](https://img.shields.io/badge/MCP-compatible-green)](https://modelcontextprotocol.io/)
