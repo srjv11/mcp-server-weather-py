@@ -27,9 +27,12 @@ COPY pyproject.toml uv.lock ./
 # Install Python dependencies
 RUN uv sync --frozen
 
-# Copy application code
-COPY weather_improved.py ./
+# Copy application code and entrypoint
+COPY src/ ./src/
+COPY pyproject.toml ./
 COPY CLAUDE.md ./
+COPY docker-entrypoint.sh ./
+RUN chmod +x docker-entrypoint.sh
 
 # Change ownership to non-root user
 RUN chown -R weather:weather /app
@@ -39,10 +42,10 @@ USER weather
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import asyncio; from weather_improved import health_check; print(asyncio.run(health_check()))" || exit 1
+    CMD uv run python -c "import asyncio; from src.tools import health_check; print(asyncio.run(health_check()))" || exit 1
 
 # Expose port (if needed for HTTP mode)
 EXPOSE 8000
 
-# Default command
-CMD ["python", "weather_improved.py"]
+# Use entrypoint script for flexible deployment
+ENTRYPOINT ["./docker-entrypoint.sh"]
