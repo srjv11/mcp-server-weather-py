@@ -1,6 +1,6 @@
 # MCP Setup Guide for Weather Server
 
-This guide shows how to connect the Enhanced Weather MCP Server to Claude Code.
+This guide shows how to connect the Weather MCP Server to Claude Code.
 
 ## 🚀 Quick Setup
 
