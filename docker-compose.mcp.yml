@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  weather-mcp:
+    build: .
+    container_name: weather-mcp-server
+    restart: unless-stopped
+    environment:
+      - WEATHER_TIMEOUT=30
+      - WEATHER_MAX_RETRIES=3
+      - WEATHER_CACHE_TTL=300
+      - WEATHER_RATE_LIMIT_PER_MINUTE=60
+    volumes:
+      - ./logs:/app/logs
+      - weather-cache:/tmp/weather-cache
+    stdin_open: true
+    tty: true
+    # MCP servers communicate via stdio, not HTTP
+    # No ports exposed for MCP usage
+    healthcheck:
+      test: ["CMD", "uv", "run", "python", "-c", "import asyncio; from src.tools import health_check; print(asyncio.run(health_check()))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Resource limits for MCP usage
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  # Optional: Monitoring setup for production MCP deployments
+  weather-monitor:
+    image: prom/prometheus:latest
+    container_name: weather-mcp-monitor
+    profiles: ["monitoring"]
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  # Optional: Log aggregation for MCP troubleshooting
+  weather-logs:
+    image: grafana/loki:latest
+    container_name: weather-mcp-logs
+    profiles: ["logging"]
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml:ro
+    command: -config.file=/etc/loki/local-config.yaml
+    restart: unless-stopped
+
+volumes:
+  logs:
+  weather-cache:
+  prometheus-data:
+  loki-data:
