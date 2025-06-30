@@ -1,70 +1,22 @@
 # Configuration for GitHub Actions Labeler
-# Automatically apply labels to pull requests based on changed files
+# Only uses existing GitHub labels to avoid permission issues
 
-# Documentation changes
+# Documentation changes - use default 'documentation' label
 documentation:
   - changed-files:
     - any-glob-to-any-file: ['*.md', 'docs/**/*', 'CLAUDE.md', 'MCP_SETUP.md']
 
-# Core application code
-core:
+# Enhancement/feature PRs - use default 'enhancement' label
+enhancement:
+  - head-branch: ['^feature/', '^feat/', '^enhancement/']
   - changed-files:
     - any-glob-to-any-file: ['src/**/*.py', 'main.py', 'weather.py']
 
-# Testing related changes
-testing:
-  - changed-files:
-    - any-glob-to-any-file: ['tests/**/*.py', 'test_*.py', '**/test_*.py']
-
-# Docker and deployment
-docker:
-  - changed-files:
-    - any-glob-to-any-file: ['Dockerfile*', 'docker-compose*.yml', 'docker-entrypoint.sh', '.dockerignore']
-
-# GitHub Actions and CI/CD
-ci:
-  - changed-files:
-    - any-glob-to-any-file: ['.github/workflows/**/*.yml', '.github/workflows/**/*.yaml']
-
-# Configuration files
-config:
-  - changed-files:
-    - any-glob-to-any-file: ['pyproject.toml', 'uv.lock', '*.ini', '*.cfg', '.env*']
-
-# Dependencies
-dependencies:
-  - changed-files:
-    - any-glob-to-any-file: ['pyproject.toml', 'uv.lock', 'requirements*.txt']
-
-# Enhancement/feature PRs
-enhancement:
-  - head-branch: ['^feature/', '^feat/', '^enhancement/']
-
-# Bug fixes
+# Bug fixes - use default 'bug' label
 bug:
   - head-branch: ['^fix/', '^bugfix/', '^hotfix/']
 
-# Refactoring
-refactor:
-  - head-branch: ['^refactor/', '^refac/']
-
-# Chore/maintenance
-chore:
-  - head-branch: ['^chore/', '^maint/', '^maintenance/']
-
-# Breaking changes (detect from file patterns that might indicate breaking changes)
-breaking:
+# Dependencies - use default 'dependencies' label
+dependencies:
   - changed-files:
-    - any-glob-to-any-file: ['src/main.py', 'src/tools.py', 'src/models.py']
-
-# MCP specific changes
-mcp:
-  - changed-files:
-    - any-glob-to-any-file: ['src/tools.py', 'src/main.py', 'MCP_SETUP.md']
-  - head-branch: ['^mcp/', '^mcp-']
-
-# Security related
-security:
-  - changed-files:
-    - any-glob-to-any-file: ['src/validators.py', 'src/exceptions.py']
-  - head-branch: ['^security/', '^sec/']
+    - any-glob-to-any-file: ['pyproject.toml', 'uv.lock', 'requirements*.txt']
