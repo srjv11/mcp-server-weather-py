@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  weather-mcp:
+    build: .
+    container_name: weather-mcp-server
+    restart: unless-stopped
+    environment:
+      - WEATHER_TIMEOUT=30
+      - WEATHER_MAX_RETRIES=3
+      - WEATHER_CACHE_TTL=300
+    volumes:
+      - ./logs:/app/logs
+    stdin_open: true
+    tty: true
+    # Uncomment if you need HTTP mode instead of stdio
+    # ports:
+    #   - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import asyncio; from weather_improved import health_check; print(asyncio.run(health_check()))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add monitoring with Prometheus
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: weather-prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   volumes:
+  #     - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.libraries=/etc/prometheus/console_libraries'
+  #     - '--web.console.templates=/etc/prometheus/consoles'
+
+volumes:
+  logs:

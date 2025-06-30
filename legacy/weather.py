@@ -1,4 +1,5 @@
-from typing import Any, List, Dict
+from typing import Any
+
 import httpx
 from mcp.server.fastmcp import FastMCP
 
@@ -10,7 +11,7 @@ NWS_API_BASE = "https://api.weather.gov"
 USER_AGENT = "weather-app/1.0"
 
 
-async def make_nws_request(url: str) -> Dict[str, Any] | None:
+async def make_nws_request(url: str) -> dict[str, Any] | None:
     """Make a request to the NWS API with proper error handling."""
     headers = {"User-Agent": USER_AGENT, "Accept": "application/geo+json"}
     async with httpx.AsyncClient() as client:
@@ -22,7 +23,7 @@ async def make_nws_request(url: str) -> Dict[str, Any] | None:
             return None
 
 
-def format_alert(feature: Dict[str, Any]) -> str:
+def format_alert(feature: dict[str, Any]) -> str:
     """Format an alert feature into a readable string."""
     props = feature["properties"]
     return f"""
@@ -78,7 +79,7 @@ async def get_forecast(latitude: float, longitude: float) -> str:
 
     # Format the periods into a readable forecast
     periods = forecast_data["properties"]["periods"]
-    forecasts: List[str] = []
+    forecasts: list[str] = []
     for period in periods[:5]:  # Only show next 5 periods
         forecast = f"""{period["name"]}:
 Temperature: {period["temperature"]}°{period["temperatureUnit"]}
