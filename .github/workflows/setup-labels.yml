@@ -1,0 +1,63 @@
+name: "Setup Repository Labels"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/setup-labels.yml'
+
+jobs:
+  setup-labels:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create/Update Labels
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              { name: 'documentation', color: '0075ca', description: 'Improvements or additions to documentation' },
+              { name: 'core', color: 'd73a4a', description: 'Core application code changes' },
+              { name: 'testing', color: '7057ff', description: 'Testing related changes' },
+              { name: 'docker', color: '1d76db', description: 'Docker and deployment related' },
+              { name: 'ci', color: '2cbe4e', description: 'Continuous integration and workflows' },
+              { name: 'config', color: 'fbca04', description: 'Configuration file changes' },
+              { name: 'dependencies', color: 'ff6600', description: 'Dependency updates' },
+              { name: 'enhancement', color: '84b6eb', description: 'New feature or enhancement' },
+              { name: 'bug', color: 'd93f0b', description: 'Bug fix' },
+              { name: 'refactor', color: 'fef2c0', description: 'Code refactoring' },
+              { name: 'chore', color: 'ededed', description: 'Maintenance and chores' },
+              { name: 'breaking', color: 'b60205', description: 'Breaking changes' },
+              { name: 'mcp', color: '0e8a16', description: 'MCP (Model Context Protocol) specific' },
+              { name: 'security', color: 'ee0701', description: 'Security related changes' }
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                  color: label.color,
+                  description: label.description
+                });
+                console.log(`Created label: ${label.name}`);
+              } catch (error) {
+                if (error.status === 422) {
+                  // Label already exists, update it
+                  await github.rest.issues.updateLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: label.name,
+                    color: label.color,
+                    description: label.description
+                  });
+                  console.log(`Updated label: ${label.name}`);
+                } else {
+                  console.log(`Error with label ${label.name}: ${error.message}`);
+                }
+              }
+            }
